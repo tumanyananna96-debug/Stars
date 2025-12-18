@@ -46,6 +46,60 @@ class Particle{
   this.x+=(this.pushX*=this.friction)+this.vx;
   this.y+=(this.pushY*=this.friction)+this.vy;
 
-  if
+  if(this.x<this.radius){
+    this.x=this.radius;
+    this.vx*=-1;
+  } else if (this.y>this.effect.width-this.radius){
+    this.x=this.effect.width-this.radius;
+    this.vx*=-1;
   }
+  if (this.y<this.radius){
+    this.y=this.radius
+    this.vy*=-1;
+  } else if (this.y>this.effect.height-this.radius){
+    this.y=this.effect.height-this.radius;
+    this.vy*=-1;
+  }
+  }
+  reset(){
+    this.x= this.radius+Math.random()*(this.effect.width-this.radius*2);
+    this.y=this.radius+Math.random()*(this.effect.height-this.radius*2);
+  }
+}
+
+class Effect{
+  constructor(canvas, context){
+    this.canvas=canvas;
+    this.context=context;
+    this.width=this.canvas.width;
+    this.height=this.canvas.height;
+    this.particles=[];
+    this.numberOfParticles=300;
+    this.creatParticles();
+
+    this.mouse={
+      x: 0,
+      y: 0,
+      pressed: false,
+      radius: 200
+    }
+    window.addEventListener('resize', e =>{
+      this.resize(e.target.window.innerWidth, e.target.window.innerHeight);
+    });
+    Window.addEventListener('mousemove', e=> {
+      if(this.mouse.pressed){
+        this.mouse.x=e.x;
+        this.mouse.y=e.y;
+      }
+    });
+    window.addEventListener('mousedown', e=>{
+      this.mouse.pressed=true;
+      this.mouse.x=e.x;
+      this.mouse.y=e.y;
+    });
+    window.addEventListener('mouseup', e=>{
+      this.mouse.pressed=false;
+    })
+  }
+  creatParticles()
 }
