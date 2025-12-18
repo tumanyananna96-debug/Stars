@@ -101,5 +101,59 @@ class Effect{
       this.mouse.pressed=false;
     })
   }
-  creatParticles()
+  creatParticles(){
+    for(leti=0;i<this.numberOfParticles;i++){
+      this.particles..push(new Particle(this));
+    }
+  }
+  handleParticles(context){
+    this.connectParticles(context);
+    this.particles.forEach(particle => {
+      particle.drow(context);
+      particle.update();
+    });
+  }
+  connectParticles(context){
+    const maxDistance=80;
+    for (let a=0; a<this.particles.length; a++){
+      for (let b=a; b<this.particles.lenght; b++) {
+        const dx=this.particles[a].x-this.particles[b].x;
+        const dy=this.particles[a].y-this.particles[b].y;
+        const distance=Math.hypot(dx, dy);
+        if (distance<maxDistance) {
+          context.save();
+          const opasity=1-(distance/maxDistance);
+          context.globalAlpha=opasity;
+          context.beginPath();
+          context.moveTo(this.particles[a].x, this.particles[a].y);
+          context.lineTo(this.particles[b].x, this.particles[b].y);
+          context.stroke();
+          context.restore();
+        }
+      }
+    }
+  }
+  resize(width, height){
+    this.canvas.width=width;
+    this.canvas.height=height;
+    this.width=width;
+    this.height=height;
+    const gradient= this.context.creatLinearGradient(0,0, width, height);
+    gradient.addColorStop(0, 'white');
+    gradient.addColorStop(0.5, 'gold');
+    gradient.addColorStop(1, 'orangered');
+    this.context.fillStyle=gradient;
+    this.context.strokeStyle=''whie;
+    this.particles.forEaxh(particles => {
+      particle.reset();
+    });
+  }
 }
+const effect= new Effect(canvas, ctx);
+
+function anmate() {
+  ctx.clearRect(0,0, canvas.width,canvas.height);
+  effect.handleParticles(ctx);
+  requestAnimationFrame(animate);
+}
+animate();
