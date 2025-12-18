@@ -4,8 +4,8 @@ const ctx=canvas.getContext('2d');
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
-consol.log(ctx);
-const gradient= stx.creatLinearGradient(0,0,canvas.width, canvas.height);
+console.log(ctx);
+const gradient= ctx.createLinearGradient(0,0,canvas.width, canvas.height);
 gradient.addColorStop(0, 'white');
 gradient.addColorStop(0.5, 'gold');
 gradient.addColorStop(1, 'orangered');
@@ -31,7 +31,7 @@ class Particle{
     //context.stroke();
   }
   update(){
-    if (this.effect.mouse.password){
+    if (this.effect.mouse.pressed){
       const dx=this.x-this.effect.mouse.x;
       const dy=this.y-this.effect.mouse.y;
       const distance= Math.hypot(dx, dy);
