@@ -35,7 +35,7 @@ class Particle{
       const dx=this.x-this.effect.mouse.x;
       const dy=this.y-this.effect.mouse.y;
       const distance= Math.hypot(dx, dy);
-      const force=(this.effect.mouse.radius/distance);
+      const force=(this.effect.mouse.radius/(distance+1);
       if(distans <this.effect.mouse.radius){
         const angle= Math.atan2(dy,dx);
         this.pushX+=Math.cos(angle)*force;
