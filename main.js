@@ -35,11 +35,11 @@ class Particle{
       const dx=this.x-this.effect.mouse.x;
       const dy=this.y-this.effect.mouse.y;
       const distance= Math.hypot(dx, dy);
-      const force=(this.effect.mouse.radius/distans);
+      const force=(this.effect.mouse.radius/distance);
       if(distans <this.effect.mouse.radius){
-        const angle= Math.atan2(dx,dy);
+        const angle= Math.atan2(dy,dx);
         this.pushX+=Math.cos(angle)*force;
-        this.pushy+=Math.sin(angle)*force;
+        this.pushY+=Math.sin(angle)*force;
       }
     }
 
@@ -49,7 +49,7 @@ class Particle{
   if(this.x<this.radius){
     this.x=this.radius;
     this.vx*=-1;
-  } else if (this.y>this.effect.width-this.radius){
+  } else if (this.x>this.effect.width-this.radius){
     this.x=this.effect.width-this.radius;
     this.vx*=-1;
   }
@@ -86,7 +86,7 @@ class Effect{
     window.addEventListener('resize', e =>{
       this.resize(e.target.window.innerWidth, e.target.window.innerHeight);
     });
-    Window.addEventListener('mousemove', e=> {
+    window.addEventListener('mousemove', e=> {
       if(this.mouse.pressed){
         this.mouse.x=e.x;
         this.mouse.y=e.y;
@@ -102,21 +102,21 @@ class Effect{
     })
   }
   creatParticles(){
-    for(leti=0;i<this.numberOfParticles;i++){
-      this.particles..push(new Particle(this));
+    for(let i=0;i<this.numberOfParticles;i++){
+      this.particles.push(new Particle(this));
     }
   }
   handleParticles(context){
     this.connectParticles(context);
     this.particles.forEach(particle => {
-      particle.drow(context);
+      particle.draw(context);
       particle.update();
     });
   }
   connectParticles(context){
     const maxDistance=80;
     for (let a=0; a<this.particles.length; a++){
-      for (let b=a; b<this.particles.lenght; b++) {
+      for (let b=a; b<this.particles.length; b++) {
         const dx=this.particles[a].x-this.particles[b].x;
         const dy=this.particles[a].y-this.particles[b].y;
         const distance=Math.hypot(dx, dy);
@@ -138,20 +138,20 @@ class Effect{
     this.canvas.height=height;
     this.width=width;
     this.height=height;
-    const gradient= this.context.creatLinearGradient(0,0, width, height);
+    const gradient= this.context.createLinearGradient(0,0, width, height);
     gradient.addColorStop(0, 'white');
     gradient.addColorStop(0.5, 'gold');
     gradient.addColorStop(1, 'orangered');
     this.context.fillStyle=gradient;
-    this.context.strokeStyle=''whie;
-    this.particles.forEaxh(particles => {
+    this.context.strokeStyle='white';
+    this.particles.forEach(particle => {
       particle.reset();
     });
   }
 }
 const effect= new Effect(canvas, ctx);
 
-function anmate() {
+function animate() {
   ctx.clearRect(0,0, canvas.width,canvas.height);
   effect.handleParticles(ctx);
   requestAnimationFrame(animate);
