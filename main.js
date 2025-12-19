@@ -30,18 +30,26 @@ class Particle{
     context.fill();
     //context.stroke();
   }
-  update(){
-    if (this.effect.mouse.pressed){
-      const dx=this.x-this.effect.mouse.x;
-      const dy=this.y-this.effect.mouse.y;
-      const distance= Math.hypot(dx, dy);
-      const force=(this.effect.mouse.radius/(distance+1);
-      if(distans <this.effect.mouse.radius){
-        const angle= Math.atan2(dy,dx);
-        this.pushX+=Math.cos(angle)*force;
-        this.pushY+=Math.sin(angle)*force;
-      }
+  update() {
+  if (this.effect.mouse.pressed) {
+    const dx = this.x - this.effect.mouse.x;
+    const dy = this.y - this.effect.mouse.y;
+    const distance = Math.hypot(dx, dy);
+
+    if (distance < this.effect.mouse.radius) {
+      const force = Math.min(
+        this.effect.mouse.radius / (distance + 1),
+        5
+      );
+      const angle = Math.atan2(dy, dx);
+      this.pushX += Math.cos(angle) * force * 0.1;
+      this.pushY += Math.sin(angle) * force * 0.1;
     }
+  }
+
+  this.x += (this.pushX *= this.friction) + this.vx;
+  this.y += (this.pushY *= this.friction) + this.vy;
+}
 
   this.x+=(this.pushX*=this.friction)+this.vx;
   this.y+=(this.pushY*=this.friction)+this.vy;
